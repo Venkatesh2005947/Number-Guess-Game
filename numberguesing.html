@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Number Guessing Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to right, #74ebd5, #9face6);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffffcc;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      transition: transform 0.3s;
+    }
+
+    .container:hover {
+      transform: scale(1.02);
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      font-size: 16px;
+      border: 2px solid #74ebd5;
+      border-radius: 10px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4b6cb7;
+      box-shadow: 0 0 8px #4b6cb7aa;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #4b6cb7;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #3555aa;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #444;
+    }
+
+    #result {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    #score {
+      color: #4b6cb7;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Number Guessing Game</h1>
+    <input type="text" id="guessnumber" placeholder="Enter a number 1–10"/>
+    <br />
+    <button onclick="check()">Check</button>
+    <button onclick="resetGame()">Reset</button> <!-- 🔁 Reset button -->
+    <p id="result">🤔 Waiting for your guess...</p>
+    <p id="score">Score : 10</p>
+  </div>
+
+  <script>
+    const guessnumber = document.getElementById("guessnumber");
+    const result = document.getElementById("result");
+    const scoreDisplay = document.getElementById("score");
+
+    let randomnumber = Math.floor(Math.random() * 10) + 1;
+    let totalscore = 10;
+
+    function check() {
+      const enterednumber = parseInt(guessnumber.value);
+
+      if (isNaN(enterednumber) || enterednumber < 1 || enterednumber > 10) {
+        result.textContent = "⚠️ Please enter a valid number between 1 and 10.";
+        result.style.color = "orange";
+        return;
+      }
+
+      if (enterednumber === randomnumber) {
+        result.textContent = "🎉 You are right! You guessed it!";
+        result.style.color = "green";
+        alert("You Won! The number was " + randomnumber);
+      } else {
+        result.textContent = "❌ Wrong guess! Try again.";
+        result.style.color = "red";
+        totalscore -= 1;
+        scoreDisplay.textContent = "Score : " + totalscore;
+
+        if (totalscore === 0) {
+          result.textContent = "💥 Game Over! The number was " + randomnumber;
+          alert("Game Over! The number was " + randomnumber);
+        }
+      }
+
+      guessnumber.value = "";
+    }
+
+    function resetGame() {
+      totalscore = 10;
+      randomnumber = Math.floor(Math.random() * 10) + 1;
+      scoreDisplay.textContent = "Score : " + totalscore;
+      result.textContent = "🤔 Waiting for your guess...";
+      result.style.color = "#444";
+      guessnumber.value = "";
+    }
+  </script>
+</body>
+</html>
